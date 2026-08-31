@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact — FieldPay{% endblock %}
+
+{% block extra_css %}
+<style>
+.contact-wrap{max-width:600px;margin:0 auto;padding:72px 20px 80px}
+.contact-wrap h2{font-family:var(--font-display);font-size:clamp(30px,5vw,42px);font-weight:700;color:var(--blue-900);letter-spacing:-.01em;margin-bottom:14px}
+.contact-sub{font-size:15.5px;color:var(--ink-soft);margin-bottom:40px;max-width:420px}
+.contact-row{display:flex;align-items:center;gap:16px;padding:20px 0;border-top:1px solid var(--paper-line)}
+.contact-row:last-child{border-bottom:1px solid var(--paper-line)}
+.contact-icon{width:42px;height:42px;border-radius:11px;background:var(--blue-50);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.contact-label{font-size:11.5px;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.contact-value{font-size:16px;font-weight:500;color:var(--blue-900)}
+a.contact-value{text-decoration:none;transition:color .15s}
+a.contact-value:hover{color:var(--blue-600);text-decoration:underline}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="contact-wrap">
+  <h2>Contact us</h2>
+  <p class="contact-sub">Questions, bugs, or feedback — email us directly and we'll get back to you.</p>
+
+  <div class="contact-row">
+    <span class="contact-icon">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.1-5.4A8.4 8.4 0 0 1 3.5 11 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>
+    </span>
+    <div>
+      <p class="contact-label">Email</p>
+      <a href="mailto:fieldpay.app@gmail.com" class="contact-value">fieldpay.app@gmail.com</a>
+    </div>
+  </div>
+
+  <div class="contact-row">
+    <span class="contact-icon">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    </span>
+    <div>
+      <p class="contact-label">Location</p>
+      <p class="contact-value">Pakistan</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

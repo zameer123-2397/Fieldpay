@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Pricing — FieldPay{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/marketing.css' %}">
+{% endblock %}
+
+{% block content %}
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Pricing</p>
+      <h2>One price. Everything included.</h2>
+    </div>
+    <div class="price-card reveal">
+      <p class="price-amt">$29<span>/month</span></p>
+      <ul class="price-list">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Unlimited invoices</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp + SMS delivery</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Your own Stripe / Square / bank payout</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Cancel anytime, one tap</li>
+      </ul>
+      <a href="{% url 'dashboard' %}" class="btn btn-primary">Start free</a>
+    </div>
+
+    <div style="max-width:480px;margin:56px auto 0">
+      <p class="kicker" style="text-align:center">Common questions</p>
+      <div style="display:flex;flex-direction:column;gap:18px;margin-top:16px">
+        <div>
+          <p style="font-weight:600;font-size:14.5px;color:var(--blue-900);margin-bottom:4px">Do I need a credit card to try it?</p>
+          <p style="font-size:14px;color:var(--ink-soft)">No — start sending invoices free, no card required.</p>
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:14.5px;color:var(--blue-900);margin-bottom:4px">What if my country doesn't support Stripe?</p>
+          <p style="font-size:14px;color:var(--ink-soft)">Use bank details, a Wise link, or a QR code instead — your invoice still sends the same way.</p>
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:14.5px;color:var(--blue-900);margin-bottom:4px">Can I cancel anytime?</p>
+          <p style="font-size:14px;color:var(--ink-soft)">Yes, one tap in settings — no contract, no call needed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

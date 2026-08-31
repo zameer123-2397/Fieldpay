@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Invoice — {{ invoice.job_name }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/invoice.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="pay-wrap">
+  <div class="pay-card">
+    <p class="pay-eyebrow">Invoice</p>
+    <h2>{{ invoice.job_name }}</h2>
+    <p class="pay-amount">{{ symbol }}{{ invoice.price }}</p>
+
+    {% if invoice.paid %}
+      <span class="paid-badge"><i class="ti ti-circle-check"></i> Paid</span>
+    {% else %}
+      <p class="pay-label">How to pay</p>
+      <div class="pay-methods">
+        {% if invoice.contractor.stripe_link %}
+        <a href="{{ invoice.contractor.stripe_link }}" class="pay-method-card">
+          <span class="pm-icon"><i class="ti ti-credit-card"></i></span>
+          <span><span class="pm-title">Pay with card</span><span class="pm-sub">via Stripe</span></span>
+        </a>
+        {% endif %}
+        {% if invoice.contractor.square_link %}
+        <a href="{{ invoice.contractor.square_link }}" class="pay-method-card">
+          <span class="pm-icon"><i class="ti ti-credit-card"></i></span>
+          <span><span class="pm-title">Pay with card</span><span class="pm-sub">via Square</span></span>
+        </a>
+        {% endif %}
+        {% if invoice.contractor.bank_details %}
+        <div class="pay-method-card bank-card">
+          <span class="pm-icon"><i class="ti ti-building-bank"></i></span>
+          <span><span class="pm-title">Bank transfer</span><span class="pm-sub">{{ invoice.contractor.bank_details|linebreaksbr }}</span></span>
+        </div>
+        {% endif %}
+        {% if not invoice.contractor.stripe_link and not invoice.contractor.square_link and not invoice.contractor.bank_details %}
+        <p style="font-size:13.5px;color:var(--ink-soft)">This contractor hasn't set up a payment method yet.</p>
+        {% endif %}
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="mark_paid" class="mark-paid-link">I've paid — mark as paid</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

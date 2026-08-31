@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Features — FieldPay{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/marketing.css' %}">
+{% endblock %}
+
+{% block content %}
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Features</p>
+      <h2>Everything you need. Nothing you don't.</h2>
+      <p class="section-sub">Four things, done properly — instead of fifty features you'll never open.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>15-second invoice</h3>
+        <p>Job name, price, send. That's the entire flow — no line items, no setup screens.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.1-5.4A8.4 8.4 0 0 1 3.5 11 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg></div>
+        <h3>WhatsApp & SMS pay links</h3>
+        <p>Customers pay where they already are — no app to download, no email to dig up.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M3 10h18M5 10v9m14-9v9M3 19h18M12 3l9 5H3l9-5z"/></svg></div>
+        <h3>Your money, your bank</h3>
+        <p>Stripe, Square, bank transfer, Wise, or a QR code — however your country pays, it goes straight to you.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M20.6 12.1L12.9 4.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.5c0 .5.2 1 .6 1.4l7.7 7.7c.8.8 2 .8 2.8 0l6.5-6.5c.8-.8.8-2 0-2.8z"/><circle cx="8" cy="8.5" r="1.2" fill="#0C447C" stroke="none"/></svg></div>
+        <h3>$29/month, flat</h3>
+        <p>No tiers, no add-ons, no per-user fees. What you see is what you pay, forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

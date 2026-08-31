@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load currency_filters %}
+{% block title %}FieldPay — Dashboard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<style>
+.currency-picker{position:relative;margin-bottom:14px}
+.currency-picker input[type="text"]{
+  width:100%;border:1.5px solid #E7E2D6;border-radius:9px;
+  padding:12px 14px;font-size:15px;font-family:inherit;color:#12181F;
+  text-transform:uppercase;box-sizing:border-box;
+}
+.currency-picker input[type="text"]:focus{outline:none;border-color:#378ADD}
+.currency-list{
+  display:none;
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  max-height:220px;overflow-y:auto;background:#fff;border:1px solid #E7E2D6;
+  border-radius:10px;box-shadow:0 14px 30px -12px rgba(4,44,83,.25);z-index:999;
+}
+.currency-list.open{display:block !important}
+.currency-option{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;cursor:pointer;font-size:14px}
+.currency-option:hover,.currency-option.highlight{background:#E6F1FB}
+.co-code{font-weight:600;color:#042C53}
+.co-name{color:#4A5568;font-size:12.5px}
+.stat-currency-select{
+  border:0.5px solid #E7E2D6;border-radius:8px;padding:7px 8px;
+  font-size:12px;color:#4A5568;background:#fff;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if not contractor.setup_complete %}
+<div class="setup-overlay" id="setupOverlay">
+  <div class="setup-modal">
+    <button class="setup-close" onclick="closeSetup()" aria-label="Close">&times;</button>
+
+    <div id="setupIntro">
+      <p class="kicker">Takes 30 seconds</p>
+      <h3>Set up your account</h3>
+      <p class="setup-sub">So your invoices follow you across devices, and payments know where to go.</p>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:16px" onclick="showSetupForm()">Set up account</button>
+      <button class="link-btn" onclick="showLoginForm()">Already have an account?</button>
+    </div>
+
+    <form id="setupForm" method="post" action="{% url 'setup_account' %}" style="display:none">
+      {% csrf_token %}
+      <p class="kicker">Set up your account</p>
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+
+      <label>How do you want to get paid?</label>
+      <select name="payment_method" id="paymentMethod" required>
+        <option value="" disabled selected>Choose a payment way</option>
+        <option value="stripe">Stripe</option>
+        <option value="square">Square</option>
+        <option value="bank">Bank transfer / Wise</option>
+      </select>
+      <p class="trust-note">🔒 We only store this to put on your own invoices — it's never shared or shown to anyone but your customers.</p>
+
+      <div id="fieldStripe" class="pay-field" style="display:none">
+        <label>Stripe payment link</label>
+        <input type="url" name="stripe_link" placeholder="https://buy.stripe.com/...">
+      </div>
+
+      <div id="fieldSquare" class="pay-field" style="display:none">
+        <label>Square checkout link</label>
+        <input type="url" name="square_link" placeholder="https://square.link/...">
+      </div>
+
+      <div id="fieldBank" class="pay-field" style="display:none">
+        <label>Bank / Wise details</label>
+        <input type="text" name="bank_details" placeholder="Account title, number, bank name — or a Wise link">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:6px">Send verification link</button>
+      <button type="button" class="link-btn" onclick="showIntro()">Back</button>
+    </form>
+
+    <form id="loginForm" method="post" action="{% url 'login_link' %}" style="display:none">
+      {% csrf_token %}
+      <p class="kicker">Already have an account?</p>
+      <label>Email</label>
+      <input type="email" name="email" placeholder="you@example.com" required>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:6px">Send login link</button>
+      <button type="button" class="link-btn" onclick="showIntro()">Back</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+
+<div class="dash-wrap">
+
+  <p class="dash-greet">New job?</p>
+
+  <div class="stats-row">
+    <span class="stat-pill">This month <b>{{ currency_symbol }}{{ earned }}</b></span>
+    <span class="stat-pill pending">Pending <b>{{ currency_symbol }}{{ pending }}</b></span>
+    <span class="stat-pill">Sent <b>{{ sent_count }}</b></span>
+    <form method="get" style="display:inline-flex">
+      <select name="display" onchange="this.form.submit()" class="stat-currency-select">
+        {% for code, name, symbol in currencies %}
+        <option value="{{ code }}" {% if code == display_currency %}selected{% endif %}>{{ code }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+
+  <div class="dash-grid">
+    <div>
+      <form method="post" class="form-card">
+        {% csrf_token %}
+        <label for="job_name">Job name</label>
+        <input type="text" name="job_name" id="job_name" placeholder="AC repair" required>
+
+        <label for="price">Price</label>
+        <input type="number" step="0.01" name="price" id="price" placeholder="150" required>
+
+        <label for="currencySearch">Currency</label>
+        <div class="currency-picker">
+          <input type="text" id="currencySearch" placeholder="Type to search — USD, PKR, GBP..." autocomplete="off" value="{{ default_currency }}">
+          <input type="hidden" name="currency" id="currency" value="{{ default_currency }}">
+          <div class="currency-list" id="currencyList">
+            {% for code, name, symbol in currencies %}
+            <div class="currency-option" data-code="{{ code }}" data-search="{{ code|lower }} {{ name|lower }}">
+              <span class="co-code">{{ code }}</span>
+              <span class="co-name">{{ name }} ({{ symbol }})</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <label for="customer_phone">Customer WhatsApp number</label>
+        <input type="text" name="customer_phone" id="customer_phone" placeholder="923001234567" required>
+
+        {% if recent_customers %}
+        <p class="chip-label">Repeat customer?</p>
+        <div class="chip-row">
+          {% for c in recent_customers %}
+          <span class="chip" onclick="fillChip('{{ c.job_name }}','{{ c.price }}','{{ c.customer_phone }}','{{ c.currency }}')">
+            {{ c.job_name }} · {{ c.currency|currency_symbol }}{{ c.price }}
+          </span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Generate & send</button>
+      </form>
+
+      {% if generated %}
+      <p class="result-label">Ready to send</p>
+      <div class="result-card">
+        <p>{{ generated.invoice.job_name }}</p>
+        <p class="amt">{{ generated.symbol }}{{ generated.invoice.price }}</p>
+        <div class="result-actions">
+          <a href="{{ generated.whatsapp_link }}" target="_blank" class="wa-btn">
+            <i class="ti ti-brand-whatsapp"></i> WhatsApp
+          </a>
+          <button type="button" class="copy-btn" onclick="copyLink('{{ generated.invoice_url }}')">Copy link</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="recent-card">
+      <p class="result-label">Recent</p>
+      {% if recent_invoices %}
+        {% for inv in recent_invoices %}
+        <div class="recent-row">
+          <span><span class="status-dot {% if inv.paid %}paid{% else %}pending{% endif %}"></span>{{ inv.job_name }}</span>
+          <span>{{ inv.currency|currency_symbol }}{{ inv.price }} · {% if inv.paid %}paid{% else %}pending{% endif %}</span>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="empty-note">No invoices yet — create your first one.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function setupCurrencyPicker(){
+  var search = document.getElementById('currencySearch');
+  var hidden = document.getElementById('currency');
+  var list = document.getElementById('currencyList');
+  if(!search || !list) return;
+
+  var options = list.querySelectorAll('.currency-option');
+
+  function openList(){ list.classList.add('open'); }
+  function closeList(){ list.classList.remove('open'); }
+  function filterList(){
+    var q = search.value.toLowerCase();
+    options.forEach(function(opt){
+      var match = opt.getAttribute('data-search').indexOf(q) !== -1;
+      opt.style.display = match ? 'flex' : 'none';
+    });
+  }
+
+  search.addEventListener('focus', function(){ filterList(); openList(); });
+  search.addEventListener('input', function(){ filterList(); openList(); });
+
+  options.forEach(function(opt){
+    opt.addEventListener('click', function(){
+      hidden.value = opt.getAttribute('data-code');
+      search.value = opt.getAttribute('data-code');
+      closeList();
+    });
+  });
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.currency-picker')) closeList();
+  });
+}
+
+function fillChip(job, price, phone, currency){
+  document.getElementById('job_name').value = job;
+  document.getElementById('price').value = price;
+  document.getElementById('customer_phone').value = phone;
+  document.getElementById('currency').value = currency;
+  document.getElementById('currencySearch').value = currency;
+}
+
+function copyLink(url){
+  navigator.clipboard.writeText(url);
+}
+
+function togglePaymentField(){
+  var stripe = document.getElementById('fieldStripe');
+  var square = document.getElementById('fieldSquare');
+  var bank = document.getElementById('fieldBank');
+  var val = document.getElementById('paymentMethod').value;
+
+  stripe.style.display = (val === 'stripe') ? 'block' : 'none';
+  square.style.display = (val === 'square') ? 'block' : 'none';
+  bank.style.display = (val === 'bank') ? 'block' : 'none';
+}
+
+function showSetupForm(){
+  document.getElementById('setupIntro').style.display='none';
+  document.getElementById('setupForm').style.display='block';
+}
+function showLoginForm(){
+  document.getElementById('setupIntro').style.display='none';
+  document.getElementById('loginForm').style.display='block';
+}
+function showIntro(){
+  document.getElementById('setupForm').style.display='none';
+  document.getElementById('loginForm').style.display='none';
+  document.getElementById('setupIntro').style.display='block';
+}
+function closeSetup(){
+  document.getElementById('setupOverlay').style.display='none';
+  sessionStorage.setItem('fp_setup_dismissed','1');
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  var overlay = document.getElementById('setupOverlay');
+  if(overlay && sessionStorage.getItem('fp_setup_dismissed')){
+    overlay.style.display='none';
+  }
+  var select = document.getElementById('paymentMethod');
+  if(select){
+    select.addEventListener('change', togglePaymentField);
+  }
+  setupCurrencyPicker();
+});
+</script>
+{% endblock %}

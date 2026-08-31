@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Why FieldPay{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/marketing.css' %}">
+{% endblock %}
+
+{% block content %}
+<section>
+  <div class="wrap">
+    <div class="compare-wrap reveal">
+      <div class="section-head">
+        <p class="kicker">The honest comparison</p>
+        <h2>Why not just use Jobber or Housecall Pro?</h2>
+        <p class="section-sub">They're built for offices running 10-person crews. You're one person with a truck.</p>
+      </div>
+      <table>
+        <thead>
+          <tr><th></th><th>Jobber / Housecall</th><th>FieldPay</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Setup time</td><td class="no" data-label="Jobber / Housecall">Hours to days</td><td class="yes" data-label="FieldPay">Under 2 minutes</td></tr>
+          <tr><td>Monthly cost</td><td class="no" data-label="Jobber / Housecall">$59–299+</td><td class="yes" data-label="FieldPay">$29 flat</td></tr>
+          <tr><td>Hidden add-on fees</td><td class="no" data-label="Jobber / Housecall">Common</td><td class="yes" data-label="FieldPay">None</td></tr>
+          <tr><td>Invoice via WhatsApp/SMS</td><td class="no" data-label="Jobber / Housecall">No</td><td class="yes" data-label="FieldPay">Built in</td></tr>
+          <tr><td>Built for a 1-person crew</td><td class="no" data-label="Jobber / Housecall">Afterthought</td><td class="yes" data-label="FieldPay">The whole product</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

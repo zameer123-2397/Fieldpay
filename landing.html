@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}FieldPay — Bill the job. Get paid today.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/marketing.css' %}?v=5">
+{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div class="paper-bg"></div>
+
+  <div class="prop prop-invoice">
+    <p class="ptag">Job ticket</p>
+    <p class="pname">Ahmed Electric</p>
+    <p class="pamt">$150.00</p>
+    <div class="pbtn">Pay now</div>
+  </div>
+
+  <div class="prop prop-chat">
+    <span class="pic">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.4.8 3.1 1.3 4.8 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    </span>
+    <p class="ptxt">Invoice sent <span>via WhatsApp</span></p>
+  </div>
+
+  <div class="prop prop-timer">
+    <p class="pbig">14s</p>
+    <p class="psmall">to send</p>
+  </div>
+
+  <div class="prop prop-bank">
+    <span class="pic">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="2"><path d="M3 10h18M5 10v9m14-9v9M3 19h18M12 3l9 5H3l9-5z"/></svg>
+    </span>
+    <p class="ptxt">Deposited <span>to your own bank</span></p>
+  </div>
+
+  <div class="hero-inner">
+    <span class="eyebrow"><span class="eyebrow-dot"></span>Built for solo contractors</span>
+    <h1>Bill the job.<br>Get paid <span class="accent">today.</span></h1>
+    <p class="hero-sub">Job name, price, send. Your customer pays by WhatsApp or SMS — straight into your own bank account. No CRM to learn.</p>
+    <div class="hero-ctas">
+      <a href="{% url 'dashboard' %}" class="btn btn-primary">Start free — no card needed</a>
+      <a href="#how-it-works" class="btn btn-ghost">See how it works</a>
+    </div>
+    <p class="hero-note">Cancel anytime, one tap. Nothing to set up.</p>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Why FieldPay</p>
+      <h2>Everything else is too slow for a job site</h2>
+      <p class="section-sub">Big platforms are built for offices. This is built for a truck, a rooftop, a job that just finished.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3>15-second invoice</h3>
+        <p>Job name, price, send. That's the entire flow — no line items, no setup screens.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.1-5.4A8.4 8.4 0 0 1 3.5 11 8.5 8.5 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg></div>
+        <h3>WhatsApp & SMS pay links</h3>
+        <p>Customers pay where they already are — no app to download, no email to dig up.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M3 10h18M5 10v9m14-9v9M3 19h18M12 3l9 5H3l9-5z"/></svg></div>
+        <h3>Your money, your bank</h3>
+        <p>Stripe, Square, bank transfer, Wise, or a QR code — however your country pays, it goes straight to you.</p>
+      </div>
+      <div class="feat-card reveal">
+        <div class="feat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0C447C" stroke-width="1.8"><path d="M20.6 12.1L12.9 4.4a2 2 0 0 0-1.4-.6H5a2 2 0 0 0-2 2v6.5c0 .5.2 1 .6 1.4l7.7 7.7c.8.8 2 .8 2.8 0l6.5-6.5c.8-.8.8-2 0-2.8z"/><circle cx="8" cy="8.5" r="1.2" fill="#0C447C" stroke="none"/></svg></div>
+        <h3>$29/month, flat</h3>
+        <p>No tiers, no add-ons, no per-user fees. What you see is what you pay, forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="compare-wrap reveal">
+      <div class="section-head">
+        <p class="kicker">The honest comparison</p>
+        <h2>Why not just use Jobber or Housecall Pro?</h2>
+        <p class="section-sub">They're built for offices running 10-person crews. You're one person with a truck.</p>
+      </div>
+      <table>
+        <thead>
+          <tr><th></th><th>Jobber / Housecall</th><th>FieldPay</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Setup time</td><td class="no" data-label="Jobber / Housecall">Hours to days</td><td class="yes" data-label="FieldPay">Under 2 minutes</td></tr>
+          <tr><td>Monthly cost</td><td class="no" data-label="Jobber / Housecall">$59–299+</td><td class="yes" data-label="FieldPay">$29 flat</td></tr>
+          <tr><td>Hidden add-on fees</td><td class="no" data-label="Jobber / Housecall">Common</td><td class="yes" data-label="FieldPay">None</td></tr>
+          <tr><td>Invoice via WhatsApp/SMS</td><td class="no" data-label="Jobber / Housecall">No</td><td class="yes" data-label="FieldPay">Built in</td></tr>
+          <tr><td>Built for a 1-person crew</td><td class="no" data-label="Jobber / Housecall">Afterthought</td><td class="yes" data-label="FieldPay">The whole product</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">How it works</p>
+      <h2>Three steps. No training needed.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <h3>Type the job and price</h3>
+        <p>"AC repair — $150." That's the whole form. Takes seconds on-site.</p>
+      </div>
+      <div class="step reveal">
+        <h3>Send the link</h3>
+        <p>One tap sends a pay link straight to your customer's WhatsApp or phone.</p>
+      </div>
+      <div class="step reveal">
+        <h3>Get paid same day</h3>
+        <p>They tap, pay, and it lands in your own bank account — no waiting on you to invoice later.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="kicker">Pricing</p>
+      <h2>One price. Everything included.</h2>
+    </div>
+    <div class="price-card reveal">
+      <p class="price-amt">$29<span>/month</span></p>
+      <ul class="price-list">
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Unlimited invoices</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>WhatsApp + SMS delivery</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Your own Stripe / Square / bank payout</li>
+        <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B6D11" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Cancel anytime, one tap</li>
+      </ul>
+      <a href="{% url 'dashboard' %}" class="btn btn-primary">Start free</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final-cta reveal">
+      <h2>Send your first invoice free</h2>
+      <p class="section-sub" style="margin-bottom:26px">No credit card. No setup call. Just try it on your next job.</p>
+      <a href="{% url 'dashboard' %}" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
